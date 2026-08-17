@@ -1,9 +1,9 @@
 import './quick-send.scss';
 
-export default (function () {
-    const textarea: HTMLTextAreaElement | null = document.querySelector('#message_box');
-    const sendBtn = textarea?.form?.querySelector('.input-submit[name=send]') as HTMLButtonElement;
-    const previewBtn = textarea?.form?.querySelector('.input-submit[name=preview]') as HTMLButtonElement;
+export function initQuickSend() {
+    const textarea: HTMLTextAreaElement | null = document.querySelector('.mform textarea[name=content]');
+    const sendBtn = textarea?.form?.querySelector('.mform button[name=send]') as HTMLButtonElement;
+    const previewBtn = textarea?.form?.querySelector('.mform button[name=preview]') as HTMLButtonElement;
 
     if (!textarea || !sendBtn || !previewBtn) {
         return;
@@ -42,4 +42,4 @@ export default (function () {
             }
         }
     });
-})();
+}

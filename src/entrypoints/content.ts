@@ -1,0 +1,19 @@
+import { initNotices } from '@/features/notices';
+import { initQuickSend } from '@/features/quick-send';
+import { initMarkdown } from '@/features/markdown';
+import { initHashtags } from '@/features/hashtags';
+
+// Style-only features (no JS behaviour).
+import '@/features/context-menu.scss';
+import '@/features/code-highlight.scss';
+
+export default defineContentScript({
+    matches: ['https://www.nyx.cz/*', 'https://nyx.cz/*'],
+    runAt: 'document_end',
+    main() {
+        initNotices();
+        initQuickSend();
+        initMarkdown();
+        //initHashtags();
+    },
+});

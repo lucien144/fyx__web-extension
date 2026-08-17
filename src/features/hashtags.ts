@@ -1,6 +1,6 @@
 import './hashtags.scss';
 
-export default (() => {
+export function initHashtags() {
     const filterInput = document.querySelector('input[name=filter_text]') as HTMLInputElement;
     const filterBtn = document.querySelector('button#topic_search') as HTMLButtonElement;
 
@@ -15,7 +15,7 @@ export default (() => {
 
     document.querySelectorAll('.fyx__tag').forEach((element) => {
         element.addEventListener('click', (event) => {
-            const currentTarget  = event.currentTarget as HTMLSpanElement;
+            const currentTarget = event.currentTarget as HTMLSpanElement;
             if (currentTarget.parentElement instanceof HTMLAnchorElement) {
                 currentTarget.parentElement.click();
                 return;
@@ -23,6 +23,6 @@ export default (() => {
 
             filterInput.value = element.innerHTML ?? '';
             filterBtn.click();
-        })
+        });
     });
-})();
+}

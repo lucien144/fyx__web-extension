@@ -1,9 +1,8 @@
 import './notices.scss';
 
-export default (function() {
-// Notices
+export function initNotices() {
     const notifications: HTMLAnchorElement | null = document.querySelector('#new_notifications');
-    let count: Number = Number.parseInt(notifications?.innerText ?? '0');
+    let count: number = Number.parseInt(notifications?.innerText ?? '0');
     count = Number.isNaN(count) ? 0 : count;
     const html = `
     <li class="i4 ${count > 0 ? 'reminders' : ''}" id="notices">
@@ -15,4 +14,4 @@ export default (function() {
 `;
     const menu: HTMLUListElement | null = document.querySelector('ul.m.l1');
     menu?.insertAdjacentHTML('beforeend', html);
-})();
+}

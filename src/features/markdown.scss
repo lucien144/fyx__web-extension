@@ -1,29 +1,18 @@
-@mixin mdicon {
-    position: relative;
-
-    &:after {
-        content: '';
-        display: block;
-        width: 20px;
-        height: 12px;
-        position: absolute;
-        top: 3px;
-        right: -25px;
-        background: url('data:image/svg+xml;charset=utf-8,%3Csvg%20data-name%3D%22Layer%201%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20460%20283.04%22%3E%3Cpath%20d%3D%22M426.79%200H33.21A33.21%2033.21%200%20000%2033.13v216.71A33.22%2033.22%200%200033.21%20283h393.65A33.1%2033.1%200%2000460%20249.91V33.13A33.21%2033.21%200%2000426.79%200zM243.3%20216.7h-44.21v-86.25l-44.2%2055.28-44.2-55.28v86.25H66.34V66.34h44.2l44.21%2055.27L199%2066.34h44.2V216.7zm97.24%202.23l-66.34-77.41h44.2V66.34h44.21v75.18h44.2z%22%2F%3E%3C%2Fsvg%3E')
-            center center / contain no-repeat;
-        opacity: 0.5;
-    }
-}
-
 .fyx__markdown {
-    .mform.mail {
-        .control-group.switch {
-            @include mdicon();
-        }
+    .markdown {
+        padding-left: 5px;
     }
-    .mform.discussion {
-        .post-type.control-group.switch {
-            @include mdicon();
+    .icon-markdown {
+        position: relative;
+
+        &:before {
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 9px;
+            background: url('data:image/svg+xml;charset=utf-8,%3Csvg%20data-name%3D%22Layer%201%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20460%20283.04%22%3E%3Cpath%20d%3D%22M426.79%200H33.21A33.21%2033.21%200%20000%2033.13v216.71A33.22%2033.22%200%200033.21%20283h393.65A33.1%2033.1%200%2000460%20249.91V33.13A33.21%2033.21%200%2000426.79%200zM243.3%20216.7h-44.21v-86.25l-44.2%2055.28-44.2-55.28v86.25H66.34V66.34h44.2l44.21%2055.27L199%2066.34h44.2V216.7zm97.24%202.23l-66.34-77.41h44.2V66.34h44.21v75.18h44.2z%22%2F%3E%3C%2Fsvg%3E')
+                center center / contain no-repeat;
+            opacity: 0.8;
         }
     }
 }

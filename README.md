@@ -8,9 +8,12 @@
 - [ ] NSFW filter (discussions, mail)
 - [ ] Notifications in menubar
 - [x] CMD + Enter submit
-- [ ] Context menu resize
+- [x] Context menu resize
 - [ ] Context menu - add user ID
 - [x] ~~Tags~~
+- [ ] Fyx theme
+- [ ] Dracula theme
+- [ ] Theme switcher
 
 ## Dev
 

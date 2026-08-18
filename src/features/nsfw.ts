@@ -1,39 +1,64 @@
 import './nsfw.scss';
 import { browser } from 'wxt/browser';
 
-// NSFW filter is remembered per discussion. Each discussion stores its own
-// on/off flag under `fyx__nsfw_enabled__<discussionId>`. Off by default.
+// NSFW filter is remembered per context — a discussion or a mail conversation.
+// Each context stores its own on/off flag under `fyx__nsfw_enabled__<context>`.
+// Off by default.
 const STORAGE_PREFIX = 'fyx__nsfw_enabled__';
 const ACTIVE_CLASS = 'fyx__nsfw-active';
 const REVEALED_CLASS = 'fyx__nsfw--revealed';
 const MEDIA_SELECTOR = '.wc .wci';
 
-const TOGGLE_BADGE =
-    '<span class="control-group fyx__nsfw-toggle"><span class="btn" title="NSFW filtr pro tuto diskuzi"><span class="icon-entypo icon-eye"></span></span></span>';
+interface NsfwContext {
+    /** Stable storage suffix, e.g. `discussion__16344` or `mail__ZANNA`. */
+    key: string;
+    /** Human noun for the toggle tooltip. */
+    noun: string;
+}
 
-// The discussion id comes from the URL (…/discussion/<id>) with a fallback to
-// the `data-discussion-id` nyx.cz stamps on every post wrapper.
-function getDiscussionId(): string | null {
-    const fromUrl = window.location.pathname.match(/\/discussion\/(\d+)/);
-    if (fromUrl) {
-        return fromUrl[1] ?? null;
+// Identify the current context from the URL:
+//   /discussion/<id>  → per discussion (fallback: data-discussion-id in markup)
+//   /mail/*           → per mail conversation
+// Returns null everywhere else (the filter only makes sense on message pages).
+function getContext(): NsfwContext | null {
+    const path = window.location.pathname;
+
+    const discussion = path.match(/\/discussion\/(\d+)/);
+    if (discussion?.[1]) {
+        return { key: 'discussion__' + discussion[1], noun: 'diskuzi' };
     }
-    return document.querySelector('[data-discussion-id]')?.getAttribute('data-discussion-id') ?? null;
+
+    if (/^\/mail(\/|$)/.test(path)) {
+        const rest = path.replace(/^\/mail\/?/, '').replace(/\/$/, '');
+        return { key: 'mail__' + (rest || 'inbox'), noun: 'poštu' };
+    }
+
+    const stamped = document
+        .querySelector('[data-discussion-id]')
+        ?.getAttribute('data-discussion-id');
+    if (stamped) {
+        return { key: 'discussion__' + stamped, noun: 'diskuzi' };
+    }
+
+    return null;
 }
 
 export function initNsfw() {
-    const discussionId = getDiscussionId();
-    if (!discussionId) {
-        return; // Only meaningful inside a discussion.
+    const context = getContext();
+    if (!context) {
+        return; // Only meaningful inside a discussion or mail conversation.
     }
 
-    const storageKey = STORAGE_PREFIX + discussionId;
+    const storageKey = STORAGE_PREFIX + context.key;
     const root = document.documentElement;
 
-    // Inject the per-discussion toggle after the last compose-form switch,
-    // mirroring how the markdown badge is placed.
-    const switches = document.querySelectorAll('.mform.discussion .control-group.switch');
-    switches[switches.length - 1]?.insertAdjacentHTML('afterend', TOGGLE_BADGE);
+    // Inject the toggle after the last compose-form switch, mirroring how the
+    // markdown badge is placed. Present on both discussion and mail forms.
+    const badge = `<span class="control-group fyx__nsfw-toggle"><span class="btn" title="NSFW filtr pro tuto ${context.noun}"><span class="icon-entypo icon-eye"></span></span></span>`;
+    const switches = document.querySelectorAll(
+        '.mform.discussion .control-group.switch, .mform.mail .control-group.switch',
+    );
+    switches[switches.length - 1]?.insertAdjacentHTML('afterend', badge);
     const toggleBtn = document.querySelector<HTMLElement>('.control-group.fyx__nsfw-toggle .btn');
 
     let enabled = false;

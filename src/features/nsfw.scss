@@ -1,15 +1,19 @@
-// NSFW filter: blur every image and video inside a post's content until clicked.
-.fyx__nsfw {
-    filter: blur(24px);
-    cursor: pointer;
-    transition: filter 0.2s ease-in-out;
+// NSFW filter: while active (per-discussion toggle), blur every image and video
+// inside a post's content until it's clicked.
+.fyx__nsfw-active {
+    .wc .wci img,
+    .wc .wci video {
+        filter: blur(24px);
+        cursor: pointer;
+        transition: filter 0.2s ease-in-out;
 
-    &:hover {
-        filter: blur(18px);
-    }
+        &:hover {
+            filter: blur(18px);
+        }
 
-    &.fyx__nsfw--revealed {
-        filter: none;
-        cursor: default;
+        &.fyx__nsfw--revealed {
+            filter: none;
+            cursor: default;
+        }
     }
 }

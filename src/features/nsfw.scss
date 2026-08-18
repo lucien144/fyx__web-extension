@@ -1,0 +1,15 @@
+// NSFW filter: blur every image inside a post's content until it's clicked.
+.fyx__nsfw {
+    filter: blur(24px);
+    cursor: pointer;
+    transition: filter 0.2s ease-in-out;
+
+    &:hover {
+        filter: blur(18px);
+    }
+
+    &.fyx__nsfw--revealed {
+        filter: none;
+        cursor: default;
+    }
+}

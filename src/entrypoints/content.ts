@@ -1,6 +1,7 @@
 import { initNotices } from '@/features/notices';
 import { initQuickSend } from '@/features/quick-send';
 import { initMarkdown } from '@/features/markdown';
+import { initNsfw } from '@/features/nsfw';
 // Hashtags is kept in the repo but disabled — its selectors no longer match nyx.cz.
 // import { initHashtags } from '@/features/hashtags';
 
@@ -15,6 +16,7 @@ export default defineContentScript({
         initNotices();
         initQuickSend();
         initMarkdown();
+        initNsfw();
         // initHashtags();
     },
 });

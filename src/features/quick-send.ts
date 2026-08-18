@@ -1,9 +1,13 @@
 import './quick-send.scss';
 
 export function initQuickSend() {
-    const textarea: HTMLTextAreaElement | null = document.querySelector('.mform textarea[name=content]');
-    const sendBtn = textarea?.form?.querySelector('.mform button[name=send]') as HTMLButtonElement;
-    const previewBtn = textarea?.form?.querySelector('.mform button[name=preview]') as HTMLButtonElement;
+    const textarea: HTMLTextAreaElement | null = document.querySelector(
+        '.mform textarea[name=content]',
+    );
+    const sendBtn = textarea?.form?.querySelector<HTMLButtonElement>('.mform button[name=send]');
+    const previewBtn = textarea?.form?.querySelector<HTMLButtonElement>(
+        '.mform button[name=preview]',
+    );
 
     if (!textarea || !sendBtn || !previewBtn) {
         return;

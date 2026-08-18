@@ -1,14 +1,8 @@
 import './markdown.scss';
 import { browser } from 'wxt/browser';
-import MarkdownIt from 'markdown-it';
+import { renderNyxMarkdown } from './markdown-render';
 
 const PREVIEW_KEY = 'fyx__preview';
-
-const md = new MarkdownIt({
-    html: true,
-    linkify: false,
-    breaks: true,
-});
 
 export function initMarkdown() {
     document?.documentElement?.classList.add('fyx__markdown');
@@ -17,7 +11,9 @@ export function initMarkdown() {
     browser.storage.local.get(PREVIEW_KEY).then((result) => {
         const preview = result[PREVIEW_KEY];
         if (typeof preview === 'string') {
-            const textarea: HTMLTextAreaElement | null = document.querySelector('.mform.mail textarea, .mform.discussion textarea');
+            const textarea: HTMLTextAreaElement | null = document.querySelector(
+                '.mform.mail textarea, .mform.discussion textarea',
+            );
             if (textarea) {
                 textarea.value = preview;
                 browser.storage.local.remove(PREVIEW_KEY);
@@ -37,12 +33,7 @@ export function initMarkdown() {
             message.setAttribute('id', id);
             message.setAttribute('name', name);
 
-            const markdown = md
-                .render(textarea.value)
-                .replaceAll('<p>', '')
-                .replaceAll('</p>', '\n')
-                .trim();
-            message.setAttribute('value', markdown);
+            message.setAttribute('value', renderNyxMarkdown(textarea.value));
             form.appendChild(message);
 
             const sender = (event as SubmitEvent).submitter?.getAttribute('name');

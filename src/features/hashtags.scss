@@ -1,13 +1,13 @@
 .fyx__tag {
-  &.like-link {
-    cursor: pointer;
-  }
-
-  a & {
-    color: currentColor;
-
-    &:hover {
-      color: currentColor !important;
+    &.like-link {
+        cursor: pointer;
     }
-  }
+
+    a & {
+        color: currentColor;
+
+        &:hover {
+            color: currentColor !important;
+        }
+    }
 }

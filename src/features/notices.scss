@@ -1,20 +1,20 @@
 #notices {
-  float: right;
-  width: auto;
-
-  .icon-entypo.icon-list {
-    display: inline-block;
+    float: right;
     width: auto;
-  }
-  .count {
-    display: inline-block;
-    width: auto;
-  }
 
-  &:not(.reminders) {
-    .icon-entypo.icon-list,
-    .count {
-      color: white;
+    .icon-entypo.icon-list {
+        display: inline-block;
+        width: auto;
     }
-  }
+    .count {
+        display: inline-block;
+        width: auto;
+    }
+
+    &:not(.reminders) {
+        .icon-entypo.icon-list,
+        .count {
+            color: white;
+        }
+    }
 }

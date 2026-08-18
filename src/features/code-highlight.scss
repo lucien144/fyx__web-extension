@@ -1,11 +1,11 @@
 @font-face {
-  font-family: JetbrainsMono;
-  src:  local('JetBrainsMono'),
-        local('JetBrains Mono'),
+    font-family: JetbrainsMono;
+    src:
+        local('JetBrainsMono'), local('JetBrains Mono'),
         url('https://rawcdn.githack.com/JetBrains/JetBrainsMono/6a005ca77d9202aa12fc277aefa8f5bb4eb7f0cd/fonts/webfonts/JetBrainsMono-Regular.woff2');
 }
 
 code {
-  font-family: JetBrainsMono, monospace;
-  font-size: 0.9rem;
+    font-family: JetBrainsMono, monospace;
+    font-size: 0.9rem;
 }

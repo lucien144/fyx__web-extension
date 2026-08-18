@@ -10,7 +10,10 @@ export function initHashtags() {
 
     document.querySelectorAll('.wci').forEach((element) => {
         // https://jex.im/regulex/#!flags=&re=(%3F!%5B%5E%3C%5D*%3E)(%23%5Ba-z%5D%5B%5Cw-%5D%2B)
-        element.innerHTML = element.innerHTML.replace(/(?![^<]*>)(#[a-z][\w-]+)/gmi, `<span class="fyx__tag like-link">$&</span>`);
+        element.innerHTML = element.innerHTML.replace(
+            /(?![^<]*>)(#[a-z][\w-]+)/gim,
+            `<span class="fyx__tag like-link">$&</span>`,
+        );
     });
 
     document.querySelectorAll('.fyx__tag').forEach((element) => {

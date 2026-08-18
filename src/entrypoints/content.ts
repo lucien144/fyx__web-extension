@@ -1,7 +1,8 @@
 import { initNotices } from '@/features/notices';
 import { initQuickSend } from '@/features/quick-send';
 import { initMarkdown } from '@/features/markdown';
-import { initHashtags } from '@/features/hashtags';
+// Hashtags is kept in the repo but disabled — its selectors no longer match nyx.cz.
+// import { initHashtags } from '@/features/hashtags';
 
 // Style-only features (no JS behaviour).
 import '@/features/context-menu.scss';
@@ -14,6 +15,6 @@ export default defineContentScript({
         initNotices();
         initQuickSend();
         initMarkdown();
-        //initHashtags();
+        // initHashtags();
     },
 });

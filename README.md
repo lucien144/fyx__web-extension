@@ -14,6 +14,7 @@
 - [ ] Fyx theme
 - [ ] Dracula theme
 - [ ] Theme switcher
+- [ ] Drafts
 
 ## Dev
 

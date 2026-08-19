@@ -1,14 +1,31 @@
+.fyx__nsfw-toggle {
+    padding-left: 5px;
+    margin-top: 0;
+    transform: translateY(2px);
+
+    .btn {
+        display: flex;
+        height: 24px;
+        align-items: center;
+    }
+    .fyx__nsfw-icon {
+        width: auto;
+        height: 1em;
+        opacity: 0.8;
+    }
+}
+
 // NSFW filter: while active (per-discussion toggle), blur every image and video
 // inside a post's content until it's clicked.
 .fyx__nsfw-active {
     .wc .wci img,
     .wc .wci video {
-        filter: blur(24px);
+        filter: blur(40px);
         cursor: pointer;
         transition: filter 0.2s ease-in-out;
 
         &:hover {
-            filter: blur(18px);
+            filter: blur(30px);
         }
 
         &.fyx__nsfw--revealed {

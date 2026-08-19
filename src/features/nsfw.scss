@@ -15,7 +15,7 @@
     }
 }
 
-// NSFW filter: while active (per-discussion toggle), blur every image and video
+// NSFW filter: while active (per-context toggle), blur every image and video
 // inside a post's content until it's clicked.
 .fyx__nsfw-active {
     .wc .wci img,

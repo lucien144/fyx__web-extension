@@ -16,6 +16,32 @@ interface NsfwContext {
     noun: string;
 }
 
+// Synchronous mirror of the async `storage.local` flag, kept in the nyx.cz
+// page's own localStorage. `storage.local` reads are async, so on load the
+// blur state would only arrive after a tick — flashing unblurred media first.
+// localStorage is synchronous and reachable from the content script, so we seed
+// the state from it immediately and let `storage.local` reconcile afterwards.
+function readMirror(key: string): boolean {
+    try {
+        return window.localStorage.getItem(key) === '1';
+    } catch {
+        return false;
+    }
+}
+
+function writeMirror(key: string, value: boolean): void {
+    try {
+        if (value) {
+            window.localStorage.setItem(key, '1');
+        } else {
+            window.localStorage.removeItem(key);
+        }
+    } catch {
+        // localStorage may be blocked (privacy settings); storage.local stays
+        // the source of truth, we just lose the flash-free load optimisation.
+    }
+}
+
 // Identify the current context from the URL:
 //   /discussion/<id>  → per discussion (fallback: data-discussion-id in markup)
 //   /mail/*           → per mail conversation
@@ -61,7 +87,9 @@ export function initNsfw() {
     navControls?.insertAdjacentHTML('beforeend', badge);
     const toggleBtn = document.querySelector<HTMLElement>('.control-group.fyx__nsfw-toggle .btn');
 
-    let enabled = false;
+    // Seed from the synchronous mirror so above-the-fold media is blurred right
+    // away; the async storage.local read below reconciles the authoritative value.
+    let enabled = readMirror(storageKey);
 
     const applyState = () => {
         root.classList.toggle(ACTIVE_CLASS, enabled);
@@ -77,20 +105,23 @@ export function initNsfw() {
 
     browser.storage.local.get(storageKey).then((result) => {
         enabled = Boolean(result[storageKey]);
+        writeMirror(storageKey, enabled);
         applyState();
     });
 
     toggleBtn?.addEventListener('click', () => {
         enabled = !enabled;
+        writeMirror(storageKey, enabled);
         applyState();
         browser.storage.local.set({ [storageKey]: enabled });
     });
 
-    // Keep other open tabs of the same discussion in sync.
+    // Keep other open tabs of the same context (discussion or mail) in sync.
     browser.storage.onChanged.addListener((changes, area) => {
         const change = changes[storageKey];
         if (area === 'local' && change) {
             enabled = Boolean(change.newValue);
+            writeMirror(storageKey, enabled);
             applyState();
         }
     });

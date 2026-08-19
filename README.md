@@ -5,7 +5,7 @@
 ## Features
 
 - [x] Markdown support
-- [ ] NSFW filter (discussions, mail)
+- [x] NSFW filter (discussions, mail)
 - [ ] Notifications in menubar
 - [x] CMD + Enter submit
 - [x] Context menu resize

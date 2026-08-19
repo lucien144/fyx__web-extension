@@ -22,10 +22,10 @@
     .wc .wci video {
         filter: blur(40px);
         cursor: pointer;
-        transition: filter 0.2s ease-in-out;
 
         &:hover {
             filter: blur(30px);
+            transition: filter 0.2s ease-in-out;
         }
 
         &.fyx__nsfw--revealed {

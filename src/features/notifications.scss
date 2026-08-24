@@ -1,0 +1,22 @@
+// Notifications relocated into the toolbar menubar.
+#fyx__notifications {
+    position: relative;
+    flex-basis: 30px;
+
+    #notifications .count {
+        background: #b60f0f;
+        font-size: 70%;
+        width: 15px;
+        height: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        top: 2px;
+        left: -8px;
+    }
+
+    .icon-entypo {
+        display: block;
+    }
+}

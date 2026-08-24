@@ -18,6 +18,13 @@ export default tseslint.config(
             },
         },
     },
+    // Node scripts and build config run outside the browser.
+    {
+        files: ['scripts/**/*.{js,mjs}', '*.config.{js,mjs,ts}'],
+        languageOptions: {
+            globals: globals.node,
+        },
+    },
     // Prettier compatibility — turn off formatting-related rules. Keep last.
     prettier,
 );

@@ -1,7 +1,9 @@
-// Tags the current HEAD with the version from the freshly built manifest, so
-// the git tag always matches the packaged extension exactly (single source of
-// truth — the version is never recomputed here). Run via `pnpm release`, which
-// builds/zips first. The tag is created locally only; pushing is left to you.
+// Local packaging helper: tags HEAD with the version from the freshly built
+// manifest, so the git tag always matches the packaged extension exactly
+// (single source of truth — the version is never recomputed here). Run via
+// `pnpm pack:local`, which builds/zips first. This is for offline/manual
+// packaging only — the official release is cut by the GitHub Actions "Release"
+// workflow on push to master. The tag is created locally and never pushed.
 import { readFileSync } from 'node:fs';
 import { execSync } from 'node:child_process';
 

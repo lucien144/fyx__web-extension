@@ -9,7 +9,7 @@
         "dev": "wxt",
         "build": "wxt build",
         "zip": "wxt zip",
-        "release": "wxt zip && node scripts/tag-release.mjs",
+        "pack:local": "wxt zip && node scripts/tag-release.mjs",
         "postinstall": "wxt prepare",
         "compile": "tsc --noEmit",
         "lint": "eslint .",

@@ -1,0 +1,57 @@
+name: Release
+
+# Every push to master cuts a release: it runs the same checks as CI, packages
+# the extension, and publishes a GitHub Release (git tag + attached .zip) using
+# the time-based version stamped into the built manifest. Uploading the zip to
+# the Chrome Web Store stays a manual step.
+on:
+    push:
+        branches: [master]
+
+# One release at a time; a newer push supersedes an in-flight one.
+concurrency:
+    group: release
+    cancel-in-progress: false
+
+permissions:
+    contents: write # create tags and releases
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: pnpm/action-setup@v4
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 24
+                  cache: pnpm
+
+            - run: pnpm install --frozen-lockfile
+
+            # Gate the release on the same checks CI runs on develop/PRs.
+            - run: pnpm lint
+            - run: pnpm format:check
+            - run: pnpm compile
+            - run: pnpm test
+
+            # Stamps the manifest with the [year].[day-of-year].[hourminute]
+            # version (runner clock is UTC) and produces the store .zip.
+            - run: pnpm zip
+
+            - name: Read version from built manifest
+              id: version
+              run: echo "value=$(node -p "require('./.output/chrome-mv3/manifest.json').version")" >> "$GITHUB_OUTPUT"
+
+            # gh creates the tag at this commit, attaches the zip, and drafts
+            # notes from the merged PRs/commits since the previous release.
+            - name: Create GitHub Release
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              run: |
+                  gh release create "v${{ steps.version.outputs.value }}" .output/*.zip \
+                    --title "v${{ steps.version.outputs.value }}" \
+                    --target "$GITHUB_SHA" \
+                    --generate-notes

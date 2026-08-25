@@ -25,6 +25,10 @@ export default defineConfig({
         description: 'Simplifies the Nyx.cz interface and adds useful features.',
         version: buildVersion(),
         permissions: ['storage'],
+        // Toolbar button so the icon is pinnable in Chrome's toolbar. No popup —
+        // the extension has no UI; this only makes the icon visible/pinnable
+        // instead of being tucked away in the puzzle (extensions) menu.
+        action: {},
     },
     hooks: {
         // Print the exact folder to load in chrome://extensions when dev starts.

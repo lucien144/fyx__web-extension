@@ -1,3 +1,7 @@
-#icon-menu.modal {
-    font-size: 14px;
+// Scoped under the root class toggled by the content script so this style only
+// applies when the "context-menu" feature is enabled (see content.ts).
+html.fyx__feat--context-menu {
+    #icon-menu.modal {
+        font-size: 14px;
+    }
 }

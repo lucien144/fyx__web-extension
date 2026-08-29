@@ -4,6 +4,7 @@
 
 ## Features
 
+- [x] Toggle menu (enable/disable each feature globally from the toolbar popup)
 - [x] Markdown support
 - [x] NSFW filter (discussions, mail)
 - [x] Notifications in menubar

@@ -9,6 +9,7 @@ import { initNotifications } from '@/features/notifications';
 // (see the respective .scss) so it only applies when the feature is enabled.
 import '@/features/context-menu.scss';
 import '@/features/code-highlight.scss';
+import '@/features/tidy-up.scss';
 
 import { loadEnabledMap } from '@/lib/settings';
 import type { FeatureId } from '@/lib/features';
@@ -25,6 +26,7 @@ const JS_FEATURES: Partial<Record<FeatureId, () => void>> = {
 const STYLE_FEATURE_CLASS: Partial<Record<FeatureId, string>> = {
     'context-menu': 'fyx__feat--context-menu',
     'code-highlight': 'fyx__feat--code-highlight',
+    'tidy-up': 'fyx__feat--tidy-up',
 };
 
 export default defineContentScript({

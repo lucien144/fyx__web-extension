@@ -43,6 +43,11 @@ export const FEATURES = [
         label: 'Zvýraznění kódu',
         description: 'Zobrazí bloky kódu písmem JetBrains Mono.',
     },
+    {
+        id: 'tidy-up',
+        label: 'Drobný úklid',
+        description: 'Drobná vylepšení a úklid rozhraní.',
+    },
 ] as const satisfies readonly FeatureMeta[];
 
 export type FeatureId = (typeof FEATURES)[number]['id'];

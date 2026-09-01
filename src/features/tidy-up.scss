@@ -1,0 +1,12 @@
+// Put all other small tidy ups here.
+
+html.fyx__feat--tidy-up {
+
+    // https://nyx.cz/discussion/1/id/58959882
+    @supports (field-sizing: content) {
+        .navbar input[name='filter_text']:focus,
+        .navbar input[name='filter_users']:focus {
+            min-inline-size: 100px;
+        }
+    }
+}

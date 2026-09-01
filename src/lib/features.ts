@@ -34,11 +34,6 @@ export const FEATURES = [
         description: 'Přesune indikátor upozornění do horní lišty.',
     },
     {
-        id: 'notices',
-        label: 'Předchozí upozornění',
-        description: 'Přidá do menu odkaz na historii upozornění.',
-    },
-    {
         id: 'context-menu',
         label: 'Zvětšení kontextového menu',
         description: 'Čitelnější velikost písma v kontextovém menu.',

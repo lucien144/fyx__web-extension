@@ -1,4 +1,3 @@
-import { initNotices } from '@/features/notices';
 import { initQuickSend } from '@/features/quick-send';
 import { initMarkdown } from '@/features/markdown';
 import { initNsfw } from '@/features/nsfw';
@@ -16,7 +15,6 @@ import type { FeatureId } from '@/lib/features';
 
 // JS features gated by the global toggle: init only runs when enabled.
 const JS_FEATURES: Partial<Record<FeatureId, () => void>> = {
-    notices: initNotices,
     'quick-send': initQuickSend,
     markdown: initMarkdown,
     nsfw: initNsfw,

@@ -1,3 +1,6 @@
+// @font-face stays at the top level (a bare declaration only fetches the font
+// when it is actually used). The `code` rule that applies it is scoped under
+// the root class toggled by the content script, so the feature can be disabled.
 @font-face {
     font-family: JetbrainsMono;
     src:
@@ -5,7 +8,7 @@
         url('https://rawcdn.githack.com/JetBrains/JetBrainsMono/6a005ca77d9202aa12fc277aefa8f5bb4eb7f0cd/fonts/webfonts/JetBrainsMono-Regular.woff2');
 }
 
-code {
-    font-family: JetBrainsMono, monospace;
+html.fyx__feat--code-highlight code {
+    font-family: JetbrainsMono, monospace;
     font-size: 0.9rem;
 }

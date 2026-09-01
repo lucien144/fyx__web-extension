@@ -21,8 +21,8 @@ function buildVersion(): string {
 export default defineConfig({
     srcDir: 'src',
     manifest: {
-        name: 'Fyx for Web',
-        description: 'Simplifies the Nyx.cz interface and adds useful features.',
+        name: 'Fyx pro Nyx.cz',
+        description: 'Přidejte si do Nyxu užitečné funkce. Bezpečně, otevřeně a jednoduše.',
         version: buildVersion(),
         permissions: ['storage'],
         // Toolbar button so the icon is pinnable in Chrome's toolbar. No popup —

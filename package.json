@@ -1,7 +1,7 @@
 {
     "name": "fyx-for-web",
     "version": "1.0.0",
-    "description": "Browser extension that simplifies the Nyx.cz interface and adds useful features.",
+    "description": "Přidejte si do Nyxu užitečné funkce. Bezpečně, otevřeně a jednoduše.",
     "private": true,
     "type": "module",
     "packageManager": "pnpm@11.10.0",

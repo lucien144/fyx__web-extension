@@ -1,100 +1,142 @@
-# Refined Nyx.cz
+# Fyx pro web
 
-> Browser extension that simplifies the Nyx.cz interface and adds useful features.
+> "Fyx pro web" je rozšíření do Chromium browserů (Chrome, Edge, Brave, ...), které zpříjemňuje čtení a psaní na Nyxu. Žádné sledování, žádný sběr dat, žádné servery: veškeré nastavení zůstává lokálně ve vašem prohlížeči.
 
-## Features
+---
 
-- [x] Toggle menu (enable/disable each feature globally from the toolbar popup)
-- [x] Markdown support
-- [x] NSFW filter (discussions, mail)
-- [x] Notifications in menubar
-- [x] CMD + Enter submit
-- [x] Context menu resize
-- [x] Code highlight (JetBrains Mono)
-- [ ] Context menu - add user ID
-- [ ] Fyx theme
-- [ ] Dracula theme
-- [ ] Theme switcher
-- [ ] Drafts
-- [x] ~~Tags~~
+<p align="center">
+🫸 <a href="https://chromewebstore.google.com/detail/fyx-pro-nyxcz/pafhlociccljgiijmbbfblliiomfpdcb?authuser=0&hl=en" target="_blank">Stránka rozšíření na oficiálním Chrome Web Store</a> 🫷 
+</p>
 
-## Dev
+---
 
-Built with [WXT](https://wxt.dev) (Manifest V3, Chrome). Requires **pnpm** and Node ≥ 24.
+## Funkce
 
-### Setup
+### NSWF filtr
+
+Stop nevyžádaným 🍌 v poště! Nyní si můžete zapnout NSFW filtr jak v poště tak v diskuzích. Po zapnutí se všechny fotky a videa rozmažou, teprve na klik zobrazí.
+
+![docs/img/nsfw.gif](docs/img/nsfw.gif)
+
+### Rychlé odesílání příspěvků
+
+Stačí napsat CMD (Ctrl) + Enter a je odesláno. Případně s Shiftem zobrazíte náhled.
+
+![docs/img/send.gif](docs/img/send.gif)
+
+### Podpora Markdownu
+
+Psaní si můžete zpříjemnit zapnutím Markdownu - buď globálně, nebo pro diskuzi/poštu zvlášť.
+
+![docs/img/md.gif](docs/img/md.gif)
+
+### Drafty
+
+Už žádné ztracené rozepsané romány - vše co rozepíšete se ukládá jako draft. Jak v poště, tak v jednotlivých diskuzích...
+
+### Notifikace přehledně
+
+Ikona o notifikacích je nově přehledně v horní části obrazovky.
+
+### ...a další
+
+- Zvětšené kontextové menu
+- Zvětšená syntaxe kódu v klubech s fontem JetBrains mono
+- Globální možnost vypnutí jednotlivých features
+
+## Backlog
+
+- [x] Přepínací menu (globální zapnutí/vypnutí každé feature z popupu v liště)
+- [x] Podpora Markdownu
+- [x] NSFW filtr (diskuze, pošta)
+- [x] Notifikace v menu
+- [x] Odeslání přes CMD + Enter
+- [x] Zvětšení kontextového menu
+- [x] Zvýraznění kódu (JetBrains Mono)
+- [ ] Kontextové menu – přidat user ID
+- [ ] Fyx téma
+- [ ] Dracula téma
+- [ ] Přepínač témat
+- [ ] Drafty
+- [x] ~~Tagy~~
+
+## Vývoj
+
+Postaveno na [WXT](https://wxt.dev) (Manifest V3, Chrome). Vyžaduje **pnpm** a Node ≥ 24.
+
+### Instalace
 
 ```sh
 pnpm install
 ```
 
-### Run
+### Spuštění
 
 ```sh
 pnpm dev
 ```
 
-This starts the dev server and builds the extension into `.output/chrome-mv3-dev/`.
-It does **not** auto-open Chrome — load it into your own browser once:
+Spustí dev server a sestaví rozšíření do `.output/chrome-mv3-dev/`.
+Chrome **neotevře** automaticky – jednou ho načti do svého prohlížeče:
 
-1. Open `chrome://extensions`
-2. Enable **Developer mode** (top-right)
-3. Click **Load unpacked** and select the folder printed by `pnpm dev`:
-   `.output/chrome-mv3-dev` (the CLI prints the absolute path on start)
-4. Open [nyx.cz](https://www.nyx.cz)
+1. Otevři `chrome://extensions`
+2. Zapni **Developer mode** (vpravo nahoře)
+3. Klikni na **Load unpacked** a vyber složku, kterou vypsal `pnpm dev`:
+   `.output/chrome-mv3-dev` (CLI vypíše absolutní cestu při startu)
+4. Otevři [nyx.cz](https://www.nyx.cz)
 
-On every source change WXT rebuilds and auto-reloads the extension — no need to
-re-load it or refresh manually. Loading unpacked into your normal Chrome keeps
-you logged in to nyx.cz.
+Při každé změně zdrojáků WXT rozšíření přebuildí a automaticky reloadne – není
+třeba ho ručně načítat znovu ani refreshovat. Načtení unpacked do tvého běžného
+Chrome tě nechá přihlášeného na nyx.cz.
 
-> The `http://localhost:3000` (or `:3001`) dev server returning 404 is expected —
-> it's the internal HMR server, not a page to visit.
+> Dev server na `http://localhost:3000` (nebo `:3001`) vracející 404 je v pořádku –
+> je to interní HMR server, ne stránka k návštěvě.
 
-### Other scripts
+### Ostatní skripty
 
 ```sh
-pnpm build         # production build → .output/chrome-mv3/
-pnpm zip           # packaged .zip for the Chrome Web Store → .output/
+pnpm build         # produkční build → .output/chrome-mv3/
+pnpm zip           # zabalený .zip pro Chrome Web Store → .output/
 pnpm compile       # TypeScript typecheck (tsc --noEmit)
 pnpm lint          # ESLint (flat config)
-pnpm format:check  # Prettier check (pnpm format to write)
-pnpm test          # Vitest (unit tests on pure logic)
+pnpm format:check  # kontrola Prettier (pnpm format pro zápis)
+pnpm test          # Vitest (unit testy nad čistou logikou)
 ```
 
-## Build for the Chrome Web Store
+## Build pro Chrome Web Store
 
-The manifest **version is generated at build time** — `wxt.config.ts` stamps it
-as `[year].[day-of-year].[hourminute]` (UTC), e.g. `2026.244.830`. It is
-monotonic across the day/year, stays within Chrome's `0–65535` per-segment
-limit, and always increases, which the Web Store requires. `package.json`'s
-`version` is ignored for the extension; there is no version to bump by hand.
+Verze v manifestu se **generuje při buildu** – `wxt.config.ts` ji nastaví jako
+`[rok].[den-v-roce].[hodinaminuta]` (UTC), např. `2026.244.830`. Je monotónní
+v rámci dne/roku, drží se v limitu Chrome `0–65535` na segment a vždy roste, což
+Web Store vyžaduje. `version` v `package.json` se pro rozšíření ignoruje; není co
+ručně zvedat.
 
-### Automated release (the normal path)
+### Automatický release (běžná cesta)
 
-Every push to **`master`** runs the `Release` GitHub Action, which:
+Každý push do **`master`** spustí GitHub Action `Release`, která:
 
-1. runs the full check suite (`lint`, `format:check`, `compile`, `test`);
-2. runs `pnpm zip` — stamps the manifest with the current UTC timestamp and
-   produces the store `.zip` in `.output/`;
-3. publishes a **GitHub Release**: creates the `v<version>` tag at that commit,
-   attaches the `.zip`, and auto-generates notes from the merged PRs/commits.
+1. spustí kompletní sadu kontrol (`lint`, `format:check`, `compile`, `test`);
+2. spustí `pnpm zip` – orazítkuje manifest aktuálním UTC časem a vytvoří
+   store `.zip` v `.output/`;
+3. publikuje **GitHub Release**: vytvoří tag `v<version>` na daném commitu,
+   přiloží `.zip` a automaticky vygeneruje poznámky ze zmergovaných PR/commitů.
 
-**Uploading the `.zip` to the Chrome Web Store is a manual step** — download it
-from the GitHub Release (or build it locally) and upload it in the
-[Developer Dashboard](https://chrome.google.com/webstore/devconsole). Nothing
-pushes to the store automatically.
+**Nahrání `.zip` do Chrome Web Store je ruční krok** – stáhni ho z GitHub Release
+(nebo si ho sestav lokálně) a nahraj v
+[Developer Dashboard](https://chrome.google.com/webstore/devconsole). Do store se
+nic nepushuje automaticky.
 
-`develop` and pull requests run the `CI` workflow only (same checks plus
-`pnpm build`, no release).
+`develop` a pull requesty spouští jen workflow `CI` (stejné kontroly plus
+`pnpm build`, bez release).
 
-### Local packaging (offline / manual)
+### Lokální balení (offline / ruční)
 
 ```sh
-pnpm zip           # → .output/<name>-<version>-chrome.zip, ready to upload
-pnpm pack:local    # pnpm zip, then tag HEAD with v<version> from the built
-                   #   manifest (fails on a dirty tree; the tag is not pushed)
+pnpm zip           # → .output/<name>-<version>-chrome.zip, připravený k nahrání
+pnpm pack:local    # pnpm zip, pak otaguje HEAD jako v<version> z postaveného
+                   #   manifestu (selže při špinavém stromu; tag se nepushuje)
 ```
 
-Use this only when you need a store `.zip` without going through the `master`
-release — e.g. a one-off manual upload. Prefer the automated release above for
-anything that ships.
+Použij jen když potřebuješ store `.zip` bez cesty přes `master` release – např.
+jednorázové ruční nahrání. Pro cokoli, co jde do provozu, dej přednost
+automatickému release výše.

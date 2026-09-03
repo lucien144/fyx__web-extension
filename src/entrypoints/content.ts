@@ -10,7 +10,8 @@ import { initDrafts } from '@/features/drafts';
 // (see the respective .scss) so it only applies when the feature is enabled.
 import '@/features/context-menu.scss';
 import '@/features/code-highlight.scss';
-import '@/features/tidy-up.scss';
+// Tidy-up is kept in the repo but disabled for now — nothing worthwhile in it yet.
+// import '@/features/tidy-up.scss';
 
 import { loadEnabledMap } from '@/lib/settings';
 import type { FeatureId } from '@/lib/features';
@@ -28,7 +29,7 @@ const JS_FEATURES: Partial<Record<FeatureId, () => void>> = {
 const STYLE_FEATURE_CLASS: Partial<Record<FeatureId, string>> = {
     'context-menu': 'fyx__feat--context-menu',
     'code-highlight': 'fyx__feat--code-highlight',
-    'tidy-up': 'fyx__feat--tidy-up',
+    // 'tidy-up': 'fyx__feat--tidy-up',
 };
 
 export default defineContentScript({

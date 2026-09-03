@@ -43,11 +43,12 @@ export const FEATURES = [
         label: 'Zvýraznění kódu',
         description: 'Zobrazí bloky kódu písmem JetBrains Mono.',
     },
-    {
-        id: 'tidy-up',
-        label: 'Drobný úklid',
-        description: 'Drobná vylepšení a úklid rozhraní.',
-    },
+    // Tidy-up is kept in the repo but disabled for now — nothing worthwhile in it yet.
+    // {
+    //     id: 'tidy-up',
+    //     label: 'Drobný úklid',
+    //     description: 'Drobná vylepšení a úklid rozhraní.',
+    // },
     {
         id: 'drafts',
         label: 'Rozepsané zprávy',

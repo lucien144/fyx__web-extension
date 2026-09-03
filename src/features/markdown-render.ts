@@ -6,25 +6,22 @@ const md = new MarkdownIt({
     breaks: true,
 });
 
-// nyx.cz auto-links bare URLs itself, but only in raw text — once we submit
-// rendered HTML it stops, so linkify has to do it. Restrict it to explicit
-// schemes; fuzzy matching would also turn `word.cz`-style text into links.
+// nyx.cz only auto-links bare URLs in raw text, not in submitted HTML, so
+// linkify has to. Explicit schemes only — fuzzy matching would also link
+// `word.cz`-style text.
 md.linkify.set({ fuzzyLink: false, fuzzyEmail: false, fuzzyIP: false });
 
-// Top-level block elements whose newline separator collapses in nyx.cz's HTML
-// rendering, so we turn it into an explicit blank line. `<li>` is excluded on
-// purpose — a break between list items would split the list.
+// Top-level blocks whose trailing newline collapses in nyx.cz's HTML rendering.
+// `<li>` is excluded — a break between list items would split the list.
 const BLOCK_END = /(<\/(?:p|h[1-6]|ul|ol|blockquote|pre)>)\n/g;
 
 /**
- * Render a message to the HTML that gets submitted to nyx.cz.
+ * Render a message to the HTML submitted to nyx.cz.
  *
- * nyx.cz displays the submitted value as HTML, so bare newlines between blocks
- * collapse to a single space. We insert `<br><br>` after each top-level block
- * so every paragraph, heading and list stays visually separated, then strip
- * markdown-it's `<p>` wrappers (nyx.cz gives them no spacing of their own).
- * Soft line breaks inside a paragraph already come through as `<br>` thanks to
- * `breaks: true`.
+ * nyx.cz renders the value as HTML, collapsing newlines between blocks. We add
+ * `<br><br>` after each top-level block to keep them separated, then strip
+ * markdown-it's spacing-less `<p>` wrappers. Soft breaks already come through as
+ * `<br>` via `breaks: true`.
  */
 export function renderNyxMarkdown(input: string): string {
     return md

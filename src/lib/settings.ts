@@ -1,10 +1,8 @@
 import { browser } from 'wxt/browser';
 import { FEATURES, type FeatureId } from './features';
 
-// Each feature's on/off flag lives in `browser.storage.local` under
-// `fyx__feature__<id>`. Features are enabled by default: only an explicit
-// stored `false` disables one, so a fresh install behaves exactly as before
-// the toggle menu existed.
+// Each feature's flag lives under `fyx__feature__<id>`. Enabled by default —
+// only an explicit stored `false` disables one.
 const PREFIX = 'fyx__feature__';
 
 export type EnabledMap = Record<FeatureId, boolean>;

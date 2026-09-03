@@ -1,7 +1,5 @@
-// Single source of truth for the user-toggleable features. Kept free of any
-// feature implementation (no DOM code, no SCSS imports) so both the content
-// script and the popup can import it without dragging content-script code into
-// the popup bundle.
+// Single source of truth for the user-toggleable features. Implementation-free
+// (no DOM, no SCSS imports) so both the content script and popup can import it.
 
 export interface FeatureMeta {
     /** Stable id — also the storage-key suffix and (for JS features) the map key. */

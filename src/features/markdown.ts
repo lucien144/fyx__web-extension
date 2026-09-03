@@ -17,8 +17,7 @@ export function initMarkdown() {
     );
     switches[switches.length - 1]?.insertAdjacentHTML('afterend', MARKDOWN_BADGE);
 
-    // Markdown on/off is remembered globally; the injected badge toggles it.
-    // Disabled by default (when nothing is stored yet).
+    // Remembered globally, toggled by the injected badge. Disabled by default.
     let enabled = false;
     const toggleBtn = document.querySelector<HTMLElement>('.control-group.markdown .btn');
 
@@ -44,7 +43,7 @@ export function initMarkdown() {
         }
     });
 
-    // If there's a stored preview hand-off from a previous reload, load it.
+    // Restore a preview hand-off stashed before a previous reload.
     browser.storage.local.get(PREVIEW_KEY).then((result) => {
         const preview = result[PREVIEW_KEY];
         if (typeof preview === 'string') {

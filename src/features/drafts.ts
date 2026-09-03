@@ -8,39 +8,25 @@ import {
     type PendingDraft,
 } from './drafts-key';
 
-// Persists an in-progress reply per conversation (discussion or mail) so a
-// half-written message survives a reload, an accidental logout, or coming back
-// later. The draft is cleared once the message is actually sent.
-//
-// Send does a full page navigation, so "was it sent?" can't be checked inline.
-// Instead of deleting on submit, the draft is stashed in PENDING_KEY and the
-// deletion is confirmed on the next load: the reply form is present again
-// (send went through) → clear; the form is gone (redirected to login / send
-// failed) → restore the draft. See CLAUDE.md notes on cross-reload state.
-//
-// Drafts are namespaced by the logged-in nyx user because storage.local is per
-// browser profile, not per account — otherwise a draft would surface for the
-// next person who logs in on the same machine.
+// Persists an in-progress reply per conversation so it survives a reload/logout.
+// Send is a full navigation, so deletion is deferred: the draft is stashed in
+// PENDING_KEY and resolved on the next load — form present → sent, clear it;
+// form gone → send failed, restore it. Namespaced per nyx user (storage.local
+// is per browser profile, not per account).
 
 const DEBOUNCE_MS = 500;
 
 const REPLY_TEXTAREA = '.mform textarea[name=content], .mform textarea[name=message]';
 
-/** Read the logged-in nyx nick from the header, or undefined if not present. */
 function currentUser(): string | undefined {
     const nick = document.querySelector<HTMLElement>('.header .info .nick')?.innerText?.trim();
     return nick || undefined;
 }
 
-// Bookmark pages (/bookmarks, /bookmarks/history) list saved conversations but
-// have no reply form. Flag the ones with a stored draft so the user can see at a
-// glance which threads they left half-written, without opening each.
 const BOOKMARK_ITEM = '.bookmark-list li';
 const DISCUSSION_LINK = 'a[href*="/discussion/"]';
 
 export function initDrafts() {
-    // Bookmark listing is user-namespaced like the drafts themselves; only run
-    // it when logged in (nick present). It no-ops off the bookmark pages.
     const user = currentUser();
     if (user) {
         void markBookmarkDrafts(user);
@@ -48,17 +34,15 @@ export function initDrafts() {
 
     const textarea = document.querySelector<HTMLTextAreaElement>(REPLY_TEXTAREA);
 
-    // No reply form on this page (logged out, non-conversation page, …). If a
-    // send was in flight, it did not land on a postable page → treat as failed
-    // and restore the draft so it is not lost. The user namespace is carried in
-    // the stashed draft, so no logged-in user is needed here.
+    // No reply form (logged out / non-conversation page): a pending send never
+    // reached a postable page, so restore it. The stashed draft carries its own
+    // user namespace, so no logged-in user is needed here.
     if (!textarea) {
         void recoverPendingWithoutForm();
         return;
     }
 
-    // The reply form only renders when logged in, so the nick should be present.
-    // If it isn't, bail rather than risk writing an un-namespaced draft.
+    // Bail rather than risk writing an un-namespaced draft.
     if (!user) {
         return;
     }
@@ -84,9 +68,7 @@ export function initDrafts() {
     const form = textarea.form;
     form?.addEventListener('submit', (event) => {
         const sender = (event as SubmitEvent).submitter?.getAttribute('name');
-        // Preview keeps the draft (the message wasn't sent). Only a real send
-        // hands the draft off for confirm-on-next-load; it is never deleted
-        // synchronously here, so a lost pending write cannot lose the draft.
+        // Only a real send hands the draft off; preview keeps it untouched.
         if (sender !== 'send') {
             return;
         }
@@ -100,8 +82,8 @@ export function initDrafts() {
     });
 }
 
-// Reply form is present: if we just came back from a send, the draft went
-// through — clear it. Otherwise restore any saved draft into an empty textarea.
+// Form present: a pending send went through → clear it; otherwise restore any
+// saved draft into an empty textarea.
 async function resolvePendingAndRestore(
     textarea: HTMLTextAreaElement,
     storageKey: string,
@@ -114,7 +96,6 @@ async function resolvePendingAndRestore(
             PENDING_KEY,
             draftStorageKey(pending.user, pending.key),
         ]);
-        // Leave the textarea as nyx left it after a successful send (empty).
         return;
     }
 
@@ -126,9 +107,8 @@ async function resolvePendingAndRestore(
     }
 }
 
-// No reply form on this load. A pending send means it did not reach a postable
-// page (logout / redirect) → move the draft back into normal storage so it
-// survives until the user returns to the conversation.
+// No form on this load: a pending send failed → move the draft back into normal
+// storage so it survives until the user returns to the conversation.
 async function recoverPendingWithoutForm(): Promise<void> {
     const stored = await browser.storage.local.get(PENDING_KEY);
     const pending = stored[PENDING_KEY] as PendingDraft | undefined;
@@ -149,8 +129,6 @@ async function markBookmarkDrafts(user: string): Promise<void> {
         return;
     }
 
-    // One read of the whole store, then keep only this user's non-empty drafts.
-    // The conversation key is whatever follows the user prefix.
     const prefix = draftKeyPrefix(user);
     const all = await browser.storage.local.get(null);
     const convKeysWithDraft = new Set<string>();

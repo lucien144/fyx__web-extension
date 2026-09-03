@@ -2,9 +2,14 @@ import MarkdownIt from 'markdown-it';
 
 const md = new MarkdownIt({
     html: true,
-    linkify: false,
+    linkify: true,
     breaks: true,
 });
+
+// nyx.cz auto-links bare URLs itself, but only in raw text — once we submit
+// rendered HTML it stops, so linkify has to do it. Restrict it to explicit
+// schemes; fuzzy matching would also turn `word.cz`-style text into links.
+md.linkify.set({ fuzzyLink: false, fuzzyEmail: false, fuzzyIP: false });
 
 // Top-level block elements whose newline separator collapses in nyx.cz's HTML
 // rendering, so we turn it into an explicit blank line. `<li>` is excluded on

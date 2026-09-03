@@ -24,6 +24,16 @@ describe('renderNyxMarkdown', () => {
         );
     });
 
+    it('linkifies a bare URL with an explicit scheme', () => {
+        expect(renderNyxMarkdown('see https://nyx.cz here')).toBe(
+            'see <a href="https://nyx.cz">https://nyx.cz</a> here',
+        );
+    });
+
+    it('does not linkify schemeless text (fuzzy off)', () => {
+        expect(renderNyxMarkdown('go to nyx.cz now')).toBe('go to nyx.cz now');
+    });
+
     it('preserves raw HTML (html: true)', () => {
         expect(renderNyxMarkdown('<kbd>Esc</kbd>')).toBe('<kbd>Esc</kbd>');
     });

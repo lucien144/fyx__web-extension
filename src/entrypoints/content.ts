@@ -2,6 +2,7 @@ import { initQuickSend } from '@/features/quick-send';
 import { initMarkdown } from '@/features/markdown';
 import { initNsfw } from '@/features/nsfw';
 import { initNotifications } from '@/features/notifications';
+import { initDrafts } from '@/features/drafts';
 // Hashtags is kept in the repo but disabled — its selectors no longer match nyx.cz.
 // import { initHashtags } from '@/features/hashtags';
 
@@ -20,6 +21,7 @@ const JS_FEATURES: Partial<Record<FeatureId, () => void>> = {
     markdown: initMarkdown,
     nsfw: initNsfw,
     notifications: initNotifications,
+    drafts: initDrafts,
 };
 
 // Style-only features gated by a root class the SCSS is scoped under.

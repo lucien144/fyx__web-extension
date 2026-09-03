@@ -48,6 +48,11 @@ export const FEATURES = [
         label: 'Drobný úklid',
         description: 'Drobná vylepšení a úklid rozhraní.',
     },
+    {
+        id: 'drafts',
+        label: 'Rozepsané zprávy',
+        description: 'Ukládá rozepsaný příspěvek zvlášť pro každou diskuzi i poštu.',
+    },
 ] as const satisfies readonly FeatureMeta[];
 
 export type FeatureId = (typeof FEATURES)[number]['id'];

@@ -1,0 +1,21 @@
+// Drafts: a bookmark whose linked discussion still has an unsent draft gets a
+// pencil marker appended to its <li> (see markBookmarkDrafts in drafts.ts). The
+// span keeps nyx's own icon-entypo font; we only nudge it off the preceding text
+// and tint it so it reads as an "editable / in progress" flag.
+.bookmark-list li[data-fyx-draft-marked] {
+    .fyx__draft-icon {
+        align-self: center;
+        padding-left: 3px;
+    }
+    .meta + .fyx__draft-icon {
+        padding-left: 0;
+        &:before {
+            content: " | ";
+            color: rgb(152.75, 158.5, 125.75);
+        }
+    }
+    .icon-pencil {
+        color: #b60f0f;
+        align-self: center;
+    }
+}
